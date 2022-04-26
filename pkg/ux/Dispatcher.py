@@ -120,7 +120,6 @@ class Dispatcher:
             chnl.line(f"while fetching a tile of '{channel}' from '{data}'")
             chnl.line(f"with shape {shape} at {origin}")
             chnl.line(f"at zoom level {zoom}")
-            chnl.line(f"from '{src}'")
             # and flush
             chnl.log()
             # let the client know
@@ -154,7 +153,6 @@ class Dispatcher:
             chnl.line(f"while generating a '{channel}' tile of '{data}'")
             chnl.line(f"with shape {shape} at {origin}")
             chnl.line(f"at zoom level {zoom}")
-            chnl.line(f"from '{src}'")
             # and flush
             chnl.log()
         # let the client know
@@ -250,7 +248,7 @@ class Dispatcher:
         The client requested the root document
         """
         # form the uri
-        uri = "/ux/{0.pyre_namespace}.html".format(plexus)
+        uri = "/ux/qed/{0.pyre_namespace}.html".format(plexus)
         # open the document and serve it
         return server.documents.File(uri=uri, server=server, application=plexus)
 
@@ -268,7 +266,7 @@ class Dispatcher:
     # the app api
     regex = re.compile("|".join([
         # the data request recognizer
-        r"/(?P<data>data/" + "/".join([
+        r"/qed/(?P<data>data/" + "/".join([
             rf"(?P<data_dataset>{pyreid})",
             r"(?P<data_channel>\w+)",
             rf"(?P<data_zoom>{zoom})",
@@ -276,25 +274,25 @@ class Dispatcher:
         ]) + ")",
 
         # data profile requests
-        r"/(?P<profile>profile/" + "/".join([
+        r"/qed/(?P<profile>profile/" + "/".join([
            rf"(?P<profile_format>{profileFormat})",
            rf"(?P<profile_dataset>{pyreid})",
         ]) + ")",
 
         # graphql requests
-        r"/(?P<graphql>graphql)",
+        r"/qed/(?P<graphql>graphql)",
 
         # the kill command
-        r"/(?P<stop>stop)",
+        r"/qed/(?P<stop>stop)",
 
         # document requests
-        r"/(?P<css>.+\.css)",
-        r"/(?P<jscript>.+\.js)",
-        r"/(?P<document>(graphics/.+)|(fonts/.+))",
-        r"/(?P<favicon>favicon.ico)",
+        r"/qed/(?P<css>.+\.css)",
+        r"/qed/(?P<jscript>.+\.js)",
+        r"/qed/(?P<document>(graphics/.+)|(fonts/.+))",
+        r"/qed/(?P<favicon>favicon.ico)",
 
         # everything else gets the app page; see the {root} resolver above
-        r"/(?P<root>.*)",
+        r"(?P<root>.*)",
         ]))
 
 
